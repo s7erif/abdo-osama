@@ -1218,6 +1218,41 @@ footer {
     border-top-left-radius: 30px
 }
 
+.project-placeholder {
+    height: 100%;
+    min-height: 260px;
+    border-top-left-radius: 30px;
+    background: linear-gradient(135deg, #5600a4 0%, #2a1045 55%, #07000c 100%);
+    border: 1px solid #3d1a6e;
+    border-right: none;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    padding: 30px;
+    text-align: center
+}
+
+.project-placeholder span.project-mock {
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #fff, #c084fc);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent
+}
+
+.project-placeholder small {
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: .85
+}
+
 .ProjectHeading {
     color: var(--color-white);
     font-size: 3.4rem;
