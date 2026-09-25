@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Quiz – Gastroenterology & Hepatology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fc;
+            color: #1e2a3a;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            padding: 30px 35px 40px;
+            transition: 0.3s;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0b2b4a;
+            letter-spacing: -0.3px;
+            border-left: 6px solid #2a7de1;
+            padding-left: 18px;
+            margin-bottom: 8px;
+        }
+
+        .subhead {
+            color: #4a5a72;
+            font-size: 15px;
+            margin-bottom: 28px;
+            padding-left: 24px;
+            font-weight: 400;
+            border-bottom: 1px solid #e9edf4;
+            padding-bottom: 16px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f0f4fb;
+            padding: 12px 20px;
+            border-radius: 14px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            font-size: 16px;
+            color: #1e3a5f;
+        }
+
+        .score-badge {
+            background: #1e3a5f;
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar-wrap {
+            width: 100%;
+            height: 6px;
+            background: #dde5ef;
+            border-radius: 10px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #2a7de1, #4ca1f0);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .question-card {
+            margin-bottom: 10px;
+        }
+
+        .q-number {
+            font-weight: 700;
+            color: #2a7de1;
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .q-text {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.5;
+            margin-bottom: 18px;
+            color: #0b1e33;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: #f9fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 450;
+            color: #1e2a3a;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            width: 100%;
+            line-height: 1.4;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            background: #edf3fe;
+            border-color: #b6c9e8;
+            transform: translateY(-1px);
+        }
+
+        .option-btn .letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #e9eef6;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #1e3a5f;
+            flex-shrink: 0;
+        }
+
+        .option-btn.correct {
+            background: #d9f0e1;
+            border-color: #1f8b4c;
+        }
+
+        .option-btn.correct .letter {
+            background: #1f8b4c;
+            color: #fff;
+        }
+
+        .option-btn.wrong {
+            background: #fce4e4;
+            border-color: #c73a3a;
+        }
+
+        .option-btn.wrong .letter {
+            background: #c73a3a;
+            color: #fff;
+        }
+
+        .option-btn.reveal-correct {
+            background: #d9f0e1;
+            border-color: #1f8b4c;
+        }
+
+        .option-btn.reveal-correct .letter {
+            background: #1f8b4c;
+            color: #fff;
+        }
+
+        .option-btn.disabled {
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        .feedback-box {
+            background: #f0f6ff;
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-top: 6px;
+            margin-bottom: 20px;
+            border-left: 5px solid #2a7de1;
+            font-size: 15px;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        .feedback-box .fb-correct {
+            color: #1a6e3e;
+            font-weight: 600;
+        }
+
+        .feedback-box .fb-wrong {
+            color: #b12a2a;
+            font-weight: 600;
+        }
+
+        .feedback-box .fb-answer {
+            font-weight: 600;
+            color: #0b2b4a;
+        }
+
+        .nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            background: #eef3fa;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e3a5f;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #d5e1f0;
+            transform: scale(1.02);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.primary {
+            background: #1e3a5f;
+            color: #fff;
+        }
+
+        .nav-btn.primary:hover:not(:disabled) {
+            background: #0b2b4a;
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 2px solid #cdd8e6;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #4a5a72;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #eef3fa;
+            border-color: #9aafc9;
+        }
+
+        /* result screen */
+        .result-screen {
+            text-align: center;
+            padding: 30px 10px 10px;
+        }
+
+        .result-screen .big-score {
+            font-size: 72px;
+            font-weight: 800;
+            color: #0b2b4a;
+            line-height: 1;
+        }
+
+        .result-screen .big-label {
+            font-size: 22px;
+            font-weight: 500;
+            color: #2a4d6e;
+            margin-top: 6px;
+        }
+
+        .result-screen .sub-meta {
+            margin-top: 16px;
+            color: #4a5a72;
+            font-size: 16px;
+        }
+
+        .result-screen .detail-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 28px 0 18px;
+            flex-wrap: wrap;
+        }
+
+        .result-screen .stat-item {
+            background: #f0f4fb;
+            padding: 14px 28px;
+            border-radius: 16px;
+            min-width: 100px;
+        }
+
+        .result-screen .stat-item .num {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0b2b4a;
+        }
+
+        .result-screen .stat-item .label {
+            font-size: 14px;
+            color: #4a5a72;
+        }
+
+        .result-screen .stat-item.green .num {
+            color: #1f8b4c;
+        }
+        .result-screen .stat-item.red .num {
+            color: #b12a2a;
+        }
+
+        .result-screen .restart-btn {
+            margin-top: 28px;
+            background: #1e3a5f;
+            border: none;
+            padding: 14px 44px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .result-screen .restart-btn:hover {
+            background: #0b2b4a;
+            transform: scale(1.02);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        .small-note {
+            font-size: 13px;
+            color: #6a7e9a;
+            margin-top: 18px;
+            border-top: 1px solid #e9edf4;
+            padding-top: 18px;
+            text-align: center;
+        }
+
+        @media (max-width: 650px) {
+            .container {
+                padding: 18px 16px 28px;
+            }
+            h1 {
+                font-size: 22px;
+                padding-left: 12px;
+            }
+            .q-text {
+                font-size: 16px;
+            }
+            .option-btn {
+                font-size: 14px;
+                padding: 12px 16px;
+            }
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .nav-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .nav-btn {
+                text-align: center;
+            }
+            .result-screen .detail-stats {
+                gap: 16px;
+            }
+            .result-screen .stat-item {
+                min-width: 70px;
+                padding: 10px 16px;
+            }
+            .result-screen .big-score {
+                font-size: 52px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+        <h1>📋 GI & Hepatology Quiz</h1>
+        <div class="subhead">61 questions · instant feedback · answer key included</div>
+
+        <!-- Top bar -->
+        <div class="top-bar">
+            <span class="progress-text" id="progressText">Question 1 / 61</span>
+            <span class="score-badge" id="scoreBadge">✅ 0 correct</span>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Question area -->
+        <div id="questionArea">
+            <div class="question-card" id="questionCard">
+                <div class="q-number" id="qNumber">Q1</div>
+                <div class="q-text" id="qText">Loading question…</div>
+                <div class="options-grid" id="optionsContainer"></div>
+                <div class="feedback-box" id="feedbackBox">
+                    <span id="feedbackIcon"></span>
+                    <span id="feedbackText"></span>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="nav-row">
+                <button class="nav-btn" id="prevBtn" disabled>◀ Previous</button>
+                <div>
+                    <button class="reset-btn" id="resetBtn">⟳ Reset</button>
+                </div>
+                <button class="nav-btn primary" id="nextBtn">Next ▶</button>
+            </div>
+        </div>
+
+        <!-- Result screen -->
+        <div id="resultScreen" class="result-screen hidden">
+            <div class="big-score" id="finalScoreNum">0</div>
+            <div class="big-label">out of 61</div>
+            <div class="sub-meta" id="finalMessage">Great job!</div>
+            <div class="detail-stats">
+                <div class="stat-item green">
+                    <div class="num" id="correctCount">0</div>
+                    <div class="label">Correct</div>
+                </div>
+                <div class="stat-item red">
+                    <div class="num" id="wrongCount">0</div>
+                    <div class="label">Wrong</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num" id="unansweredCount">0</div>
+                    <div class="label">Unanswered</div>
+                </div>
+            </div>
+            <button class="restart-btn" id="restartBtn">🔄 Restart Quiz</button>
+        </div>
+
+        <div class="small-note">📌 Answers based on provided key · Immediate correction on selection</div>
+    </div>
+
+    <script>
+        // --------------------------------------------------------------
+        // DATA: 61 questions with options and correct answer (a–d)
+        // --------------------------------------------------------------
+        const quizData = [{
+            id: 1,
+            q: 'A 56-year-old chronic alcoholic with a 1-year history of ascites is admitted with a 2-day history of diffuse abdominal pain and fever. Diagnostic paracentesis yields slightly cloudy ascitic fluid with an absolute polymorphonuclear (PMN) cell count of 1000/μL. Intravenous antibiotic therapy is initiated. Which statement about his treatment is true?',
+            options: [
+                'Antibiotic therapy is unnecessary if the ascitic fluid culture is negative for bacteria.',
+                'Repeated paracenteses are required to assess the response to antibiotic treatment.',
+                'The addition of albumin to antibiotic therapy improves survival.',
+                'After treatment of this acute episode, a recurrent episode of spontaneous bacterial peritonitis would be unlikely.'
+            ],
+            correct: 'c'
+        }, {
+            id: 2,
+            q: 'A 52-year-old man with cirrhosis presents with massive hematemesis and hypotension. Endoscopy confirms actively bleeding esophageal varices. Which pharmacologic agent should be initiated immediately before endoscopy?',
+            options: [
+                'Ursodeoxycholic acid',
+                'Octreotide',
+                'Metoclopramide',
+                'Omeprazole'
+            ],
+            correct: 'b'
+        }, {
+            id: 3,
+            q: 'A patient with decompensated cirrhosis has refractory ascites, recurrent variceal bleeding, and hepatic encephalopathy. What is the most appropriate next step?',
+            options: [
+                'Splenectomy',
+                'Oral steroids',
+                'Repeat liver biopsy',
+                'Liver transplantation referral'
+            ],
+            correct: 'd'
+        }, {
+            id: 4,
+            q: 'A chronic alcoholic presents with AST:ALT ratio >2:1. Which diagnosis is most likely?',
+            options: [
+                'Alcoholic hepatitis',
+                'Wilson disease',
+                'Hemochromatosis',
+                'Acute viral hepatitis'
+            ],
+            correct: 'a'
+        }, {
+            id: 5,
+            q: 'A patient with cirrhosis becomes increasingly drowsy and develops reversal of sleep rhythm. Which finding represents the earliest manifestation of hepatic encephalopathy?',
+            options: [
+                'Hyperreflexia',
+                'Daytime somnolence',
+                'Asterixis',
+                'Personality and sleep changes'
+            ],
+            correct: 'd'
+        }, {
+            id: 6,
+            q: 'A 48-year-old obese woman presents with acute, severe right upper quadrant pain radiating to her right scapula, accompanied by fever and nausea. Abdominal ultrasound shows gallstones but lacks definitive evidence of gallbladder wall thickening. Clinical suspicion for cystic duct obstruction (acute cholecystitis) remains high. Which is the most sensitive next step and test of choice to confirm the diagnosis?',
+            options: [
+                'Hepatobiliary iminodiacetic acid (HIDA) scan',
+                'Magnetic resonance cholangiopancreatography (MRCP)',
+                'Computed tomography (CT) scan of the abdomen',
+                'Endoscopic retrograde cholangiopancreatography (ERCP)'
+            ],
+            correct: 'a'
+        }, {
+            id: 7,
+            q: 'A 45-year-old male with a history of alcohol use disorder presents with large-volume hematemesis, tachycardia, and hypotension. While preparing for endoscopy, a continuous intravenous infusion of octreotide is initiated to lower splanchnic blood flow. This pharmacological agent would be least appropriate for the management of which co-existing condition if present?',
+            options: [
+                'Pancreatic ascites',
+                'Ulcerative colitis',
+                'Short bowel syndrome',
+                'Esophageal variceal bleeding'
+            ],
+            correct: 'b'
+        }, {
+            id: 8,
+            q: 'A patient with portal hypertension develops congestive gastropathy. Which medication is most effective for long-term management?',
+            options: [
+                'Propranolol',
+                'Octreotide',
+                'Spironolactone',
+                'Omeprazole'
+            ],
+            correct: 'b'
+        }, {
+            id: 9,
+            q: 'Serologic testing in a healthcare worker reveals isolated anti-HBs positivity. This pattern most likely indicates:',
+            options: [
+                'Window period infection',
+                'Chronic hepatitis B infection',
+                'Acute hepatitis B infection',
+                'Previous vaccination'
+            ],
+            correct: 'd'
+        }, {
+            id: 10,
+            q: 'A 60-year-old man presents with painless progressive jaundice, weight loss, palpable gallbladder, and markedly elevated alkaline phosphatase. Which diagnosis is most likely?',
+            options: [
+                'Hemolytic anemia',
+                'Acute hepatitis',
+                'Carcinoma head of pancreas',
+                'Gilbert syndrome'
+            ],
+            correct: 'c'
+        }, {
+            id: 11,
+            q: 'A patient with advanced cirrhosis undergoes bile acid analysis. Which bile acid is typically markedly reduced due to impaired intestinal bacterial conversion?',
+            options: [
+                'Chenodeoxycholic acid',
+                'Deoxycholic acid',
+                'Cholic acid',
+                'Glycocolic acid'
+            ],
+            correct: 'b'
+        }, {
+            id: 12,
+            q: 'A young man develops recurrent mild unconjugated hyperbilirubinemia during fasting and stress. Liver enzymes are normal. Which test best confirms Gilbert syndrome?',
+            options: [
+                'Serum ceruloplasmin',
+                'ERCP',
+                'Liver biopsy',
+                '48-hour fasting test'
+            ],
+            correct: 'd'
+        }, {
+            id: 13,
+            q: 'A patient with hemochromatosis most commonly presents with:',
+            options: [
+                'Polyarthritis of large joints only',
+                'Hepatomegaly',
+                'Massive splenomegaly',
+                'Hemoptysis'
+            ],
+            correct: 'b'
+        }, {
+            id: 14,
+            q: 'A 52-year-old woman with decompensated HCV-cirrhosis is admitted with severe coagulopathy, presenting with prolonged PT and aPTT. Despite profoundly impaired hepatic synthetic function, laboratory analysis reveals that one specific coagulation factor remains functionally intact. Which factor is this?',
+            options: [
+                'Factor II',
+                'Factor IX',
+                'Factor VIII',
+                'Factor VII'
+            ],
+            correct: 'c'
+        }, {
+            id: 15,
+            q: 'A patient with Wilson disease is found to have brownish corneal rings on slit-lamp examination. The deposits occur in:',
+            options: [
+                'Lens capsule',
+                'Bowman membrane',
+                'Descemet membrane',
+                'Retina'
+            ],
+            correct: 'c'
+        }, {
+            id: 16,
+            q: 'A 28-year-old male intravenous drug user presents with a two-week history of fatigue, nausea, and right upper quadrant pain. Physical examination reveals scleral icterus. Laboratory shows AST 1200 U/L, ALT 1450 U/L, and elevated bilirubin. To confirm acute Hepatitis B infection, which serological marker would be the first to appear in his blood?',
+            options: [
+                'IgM antibody to Hepatitis B core antigen (IgM anti-HBc)',
+                'Hepatitis B surface antigen (HBsAg)',
+                'Hepatitis B e antigen (HBeAg)',
+                'IgG antibody to Hepatitis B core antigen (IgG anti-HBc)'
+            ],
+            correct: 'b'
+        }, {
+            id: 17,
+            q: 'A patient with decompensated cirrhosis has markedly prolonged PT and elevated INR. Which clotting factor level is expected to remain relatively preserved?',
+            options: [
+                'Factor II',
+                'Factor VII',
+                'Factor IX',
+                'Factor VIII'
+            ],
+            correct: 'd'
+        }, {
+            id: 18,
+            q: 'A patient with hereditary hemochromatosis is expected to have which laboratory pattern?',
+            options: [
+                'Low ferritin and low transferrin saturation',
+                'Low serum iron only',
+                'High ferritin and high transferrin saturation',
+                'Low ferritin and high TIBC'
+            ],
+            correct: 'c'
+        }, {
+            id: 19,
+            q: 'A patient with chronic hepatitis C and cirrhosis develops weight loss and a liver mass. Alpha-fetoprotein is elevated. Which diagnosis is most likely?',
+            options: [
+                'Hepatocellular carcinoma',
+                'Hepatic adenoma',
+                'Cholangiocarcinoma',
+                'Liver abscess'
+            ],
+            correct: 'a'
+        }, {
+            id: 20,
+            q: 'A patient with cirrhosis develops spontaneous bacterial peritonitis. Which ascitic fluid finding is diagnostic?',
+            options: [
+                'PMN count ≥ 250/μL',
+                'SAAG < 1.1',
+                'Glucose > 100 mg/dL',
+                'Protein > 4 g/dL'
+            ],
+            correct: 'a'
+        }, {
+            id: 21,
+            q: 'A 30-year-old healthcare worker is being evaluated for a needle-stick injury. Her baseline serology shows the isolated presence of Hepatitis B surface antibody (anti-HBs). She denies any prior history of jaundice or clinical hepatitis. Which best describes her current virological and immunological status?',
+            options: [
+                'She is in the "window period" of an acute Hepatitis B infection.',
+                'She has successfully cleared a past, natural Hepatitis B infection.',
+                'She is vaccinated against HBV.',
+                'She has chronic Hepatitis B infection with low-level viral replication.'
+            ],
+            correct: 'c'
+        }, {
+            id: 22,
+            q: 'A 55-year-old male with known alcoholic cirrhosis is brought to the clinic by his family due to increasing abdominal girth. On physical examination, the physician attempts to elicit shifting dullness. What is the minimal volume of fluid required to produce a classical shifting dullness sign?',
+            options: [
+                '100–250 mL',
+                '500–1000 mL',
+                'More than 1 liter',
+                '250–800 mL'
+            ],
+            correct: 'b'
+        }, {
+            id: 23,
+            q: 'Spider angiomas in chronic liver disease are primarily related to:',
+            options: [
+                'Hyperbilirubinemia',
+                'Increased androgen levels',
+                'Hyperestrogenism',
+                'Iron overload'
+            ],
+            correct: 'c'
+        }, {
+            id: 24,
+            q: 'A patient with cholestatic jaundice develops prolonged bleeding after a minor procedure. Deficiency of which vitamin is most likely responsible?',
+            options: [
+                'Vitamin D',
+                'Vitamin A',
+                'Vitamin C',
+                'Vitamin K'
+            ],
+            correct: 'd'
+        }, {
+            id: 25,
+            q: 'A 45-year-old alcoholic presents with severe epigastric pain radiating to the back, relieved by leaning forward. Serum lipase is markedly elevated. Which diagnosis is most likely?',
+            options: [
+                'Acute cholecystitis',
+                'Acute pancreatitis',
+                'Perforated peptic ulcer',
+                'Mesenteric ischemia'
+            ],
+            correct: 'b'
+        }, {
+            id: 26,
+            q: 'A patient with autoimmune hepatitis most commonly demonstrates which serologic marker?',
+            options: [
+                'Anti-Ro antibody',
+                'Anti-smooth muscle antibody',
+                'Antimitochondrial antibody',
+                'Anti-dsDNA'
+            ],
+            correct: 'b'
+        }, {
+            id: 27,
+            q: 'A 45-year-old male presents with signs of portal hypertension. Physical examination demonstrates striking distension of the paraumbilical veins radiating from the umbilicus, known as caput medusae. The presence of caput medusae strongly argues against which underlying etiology?',
+            options: [
+                'Extrahepatic portal vein obstruction',
+                'Noncirrhotic portal fibrosis',
+                'Laennec cirrhosis',
+                'Budd-Chiari syndrome'
+            ],
+            correct: 'a'
+        }, {
+            id: 28,
+            q: 'A 40-year-old white female complains of pruritus. Physical examination reveals xanthelasma and mild splenomegaly. She has an elevated alkaline phosphatase, but transaminases are normal. The antimitochondrial antibody test is positive. What is the most likely diagnosis?',
+            options: [
+                'Hepatocellular carcinoma',
+                'Primary biliary cirrhosis',
+                'Sclerosing cholangitis',
+                'Anaerobic liver abscess'
+            ],
+            correct: 'b'
+        }, {
+            id: 29,
+            q: 'A patient with chronic hepatitis B has persistent infectivity despite treatment. Which marker best indicates active viral replication?',
+            options: [
+                'HBV DNA',
+                'Anti-HBe',
+                'Anti-HBs',
+                'IgG anti-HBc'
+            ],
+            correct: 'a'
+        }, {
+            id: 30,
+            q: 'A 50-year-old male is hospitalized for severe acute viral hepatitis. Over five days, his total bilirubin rises from 5 mg/dL to 12 mg/dL, and ALT decreases from 2500 U/L to 400 U/L. He is lethargic but easily rousable. Which laboratory parameter is the best prognostic parameter of his remaining hepatocellular function?',
+            options: [
+                'Serum alkaline phosphatase',
+                'Serum bilirubin concentration',
+                'Prothrombin time',
+                'Serum alanine aminotransferase (SGPT)'
+            ],
+            correct: 'c'
+        }, {
+            id: 31,
+            q: 'Colonoscopy in a young adult demonstrates patchy transmural inflammation with skip lesions involving the terminal ileum. Which diagnosis is most likely?',
+            options: [
+                'Crohn disease',
+                'Irritable bowel syndrome',
+                'Infectious colitis',
+                'Ulcerative colitis'
+            ],
+            correct: 'a'
+        }, {
+            id: 32,
+            q: 'A 60-year-old man with known hepatitis C and previous liver biopsy showing cirrhosis requests evaluation for possible liver transplantation. He has had bleeding esophageal varices, hepatic encephalopathy, and refractory ascites. What is the next best step?',
+            options: [
+                'Refer the patient to a liver transplantation center',
+                'Start treatment with interferon and ribavirin',
+                'Refer the patient for hospice care',
+                'Repeat liver biopsy'
+            ],
+            correct: 'a'
+        }, {
+            id: 33,
+            q: 'A patient with cirrhosis develops confusion and flapping tremor. Which physical sign is represented by the tremor?',
+            options: [
+                'Asterixis',
+                'Cogwheel rigidity',
+                'Chvostek sign',
+                'Trousseau sign'
+            ],
+            correct: 'a'
+        }, {
+            id: 34,
+            q: 'A 60-year-old male is noted to have mild jaundice and 15-lb weight loss. The patient has noted pruritus and pale, clay-colored stools. On examination, the gallbladder is palpable. Alkaline phosphatase is very elevated. What is the most likely diagnosis?',
+            options: [
+                'Acute viral hepatitis',
+                'Hemolysis secondary to G6PD deficiency',
+                'Pancreatic carcinoma',
+                'Crigler-Najjar syndrome'
+            ],
+            correct: 'c'
+        }, {
+            id: 35,
+            q: 'A patient with complete common bile duct obstruction is expected to have:',
+            options: [
+                'Absent urinary urobilinogen',
+                'Elevated unconjugated bilirubin only',
+                'Elevated urinary urobilinogen',
+                'Decreased serum alkaline phosphatase'
+            ],
+            correct: 'a'
+        }, {
+            id: 36,
+            q: 'A patient with ascites has a serum-ascites albumin gradient (SAAG) of 1.6 g/dL. Which mechanism is most likely responsible?',
+            options: [
+                'Tuberculous peritonitis',
+                'Pancreatic ascites',
+                'Peritoneal carcinomatosis',
+                'Portal hypertension'
+            ],
+            correct: 'd'
+        }, {
+            id: 37,
+            q: 'A patient with inflammatory bowel disease develops primary sclerosing cholangitis. Which malignancy risk is particularly increased?',
+            options: [
+                'Pancreatic neuroendocrine tumor',
+                'Hepatoblastoma',
+                'Cholangiocarcinoma',
+                'Renal cell carcinoma'
+            ],
+            correct: 'c'
+        }, {
+            id: 38,
+            q: 'A 48-year-old woman presents with fatigue, pruritus, elevated alkaline phosphatase, and positive antimitochondrial antibody. Which immunoglobulin is most likely elevated?',
+            options: [
+                'IgM',
+                'IgE',
+                'IgD',
+                'IgA'
+            ],
+            correct: 'a'
+        }, {
+            id: 39,
+            q: 'A patient with chronic pancreatitis develops steatorrhea and diabetes mellitus. The underlying mechanism is:',
+            options: [
+                'Hypergastrinemia',
+                'Exocrine and endocrine pancreatic insufficiency',
+                'Excess insulin secretion',
+                'Increased bile acid production'
+            ],
+            correct: 'b'
+        }, {
+            id: 40,
+            q: 'A 40-year-old woman presents with fever, right upper quadrant pain, leukocytosis, and positive Murphy sign. Ultrasonography is inconclusive. Which investigation has the highest sensitivity for acute cystic duct obstruction?',
+            options: [
+                'HIDA scan',
+                'MRCP',
+                'CT scan of the abdomen',
+                'ERCP'
+            ],
+            correct: 'a'
+        }, {
+            id: 41,
+            q: 'A patient with acute hepatitis B enters the "window period." Which serologic marker remains detectable?',
+            options: [
+                'Anti-HBs',
+                'HBsAg',
+                'HBeAg',
+                'IgM anti-HBc'
+            ],
+            correct: 'd'
+        }, {
+            id: 42,
+            q: 'A patient with suspected pancreatic carcinoma has progressive jaundice and weight loss. Which tumor marker is most useful?',
+            options: [
+                'AFP',
+                'CEA',
+                'PSA',
+                'CA 19-9'
+            ],
+            correct: 'd'
+        }, {
+            id: 43,
+            q: 'A patient with obstructive jaundice complains of severe itching, particularly affecting the hands and feet. The symptom is most likely due to:',
+            options: [
+                'Increased histamine release',
+                'Elevated serum ammonia',
+                'Iron deposition',
+                'Deposition of bile salts in skin'
+            ],
+            correct: 'd'
+        }, {
+            id: 44,
+            q: 'A 60-year-old man with a stricture of the common bile duct due to pancreatic head adenocarcinoma develops easy bruising and a prolonged prothrombin time (PT). His coagulopathy corrects rapidly after parenteral Vitamin K. The initial failure to absorb dietary Vitamin K was primarily due to the absence of which in the intestinal lumen?',
+            options: [
+                'Hydrochloric acid',
+                'Bile salts',
+                'Bilirubin',
+                'Succus entericus'
+            ],
+            correct: 'b'
+        }, {
+            id: 45,
+            q: 'A patient with acute acetaminophen toxicity develops fulminant hepatic failure. Which antidote should be administered urgently?',
+            options: [
+                'Penicillamine',
+                'Naloxone',
+                'N-acetylcysteine',
+                'Deferoxamine'
+            ],
+            correct: 'c'
+        }, {
+            id: 46,
+            q: 'A 35-year-old man presents with AST and ALT levels above 2000 U/L. Which diagnosis is most likely?',
+            options: [
+                'Chronic pancreatitis',
+                'Acute viral hepatitis',
+                'Irritable bowel syndrome',
+                'Nephrotic syndrome'
+            ],
+            correct: 'b'
+        }, {
+            id: 47,
+            q: 'A pregnant woman undergoes routine liver function testing. Which parameter usually remains within normal range during uncomplicated pregnancy?',
+            options: [
+                'Serum albumin',
+                'Serum transaminases',
+                'Alkaline phosphatase',
+                'Serum cholesterol'
+            ],
+            correct: 'b'
+        }, {
+            id: 48,
+            q: 'A young woman complains of one week of fatigue, change in skin color, and dark brown urine. She has right upper quadrant tenderness and ALT of 1035 U/L. What is the most likely diagnosis?',
+            options: [
+                'Crigler-Najjar syndrome',
+                'Hemolysis secondary to G6PD deficiency',
+                'Pancreatic carcinoma',
+                'Acute viral hepatitis'
+            ],
+            correct: 'd'
+        }, {
+            id: 49,
+            q: 'A patient with portal hypertension develops abdominal wall collateral veins radiating from the umbilicus. Blood flow is directed:',
+            options: [
+                'Toward the umbilicus',
+                'Superiorly only',
+                'Away from the umbilicus',
+                'Inferiorly only'
+            ],
+            correct: 'c'
+        }, {
+            id: 50,
+            q: 'A 58-year-old male with long-standing cirrhosis resulting from hepatitis C develops vague right upper quadrant pain and weight loss. A right upper quadrant mass is palpable. Serum alkaline phosphatase is elevated. What is the most likely diagnosis?',
+            options: [
+                'Hepatocellular carcinoma',
+                'Primary biliary cirrhosis',
+                'Sclerosing cholangitis',
+                'Anaerobic liver abscess'
+            ],
+            correct: 'a'
+        }, {
+            id: 51,
+            q: 'A patient presents with isolated elevation of alkaline phosphatase. Which test best determines whether the source is hepatobiliary?',
+            options: [
+                'Serum bilirubin',
+                'Gamma-glutamyl transpeptidase',
+                'Prothrombin time',
+                'Serum albumin'
+            ],
+            correct: 'b'
+        }, {
+            id: 52,
+            q: 'A patient with ulcerative colitis presents with severe abdominal distension, fever, tachycardia, and colonic dilation on X-ray. Which complication has developed?',
+            options: [
+                'Volvulus',
+                'Intussusception',
+                'Fistula formation',
+                'Toxic megacolon'
+            ],
+            correct: 'd'
+        }, {
+            id: 53,
+            q: 'A 24-year-old woman is admitted to the ICU with acute changes in mental status, asterixis, and severe jaundice. She has no prior liver disease. INR is 3.5, transaminases >3000 U/L. Ultrasound reveals a rapidly shrinking liver. In the global context, what is the most common underlying etiology for this fulminant hepatic failure?',
+            options: [
+                'Acute viral hepatitis',
+                'Acute alcoholic hepatitis',
+                'Acetaminophen toxicity (Drug-induced)',
+                'Autoimmune chronic active hepatitis'
+            ],
+            correct: 'a'
+        }, {
+            id: 54,
+            q: 'A patient with celiac disease undergoes biopsy of the small intestine. Which histologic feature is expected?',
+            options: [
+                'Transmural fibrosis',
+                'Caseating granulomas',
+                'Pseudopolyps only',
+                'Villous atrophy with crypt hyperplasia'
+            ],
+            correct: 'd'
+        }, {
+            id: 55,
+            q: 'A 22-year-old medical student notes mild scleral icterus after a week of intense studying, poor sleep, and skipping meals. Total bilirubin 3.2 mg/dL with direct bilirubin 0.4 mg/dL. Transaminases, ALP, and CBC are normal. Which intervention would be the best way to diagnose his suspected benign syndrome?',
+            options: [
+                '48-hour fasting with 300 kcal/day dietary restriction',
+                'Performing a percutaneous liver biopsy',
+                'Administering a bromsulfophthalcin (BSP) excretion test',
+                'Testing for red blood cell survival and fragility'
+            ],
+            correct: 'a'
+        }, {
+            id: 56,
+            q: 'A 48-year-old man of Northern European descent presents with progressive fatigue, generalized arthralgia, and newly diagnosed diabetes mellitus. Physical examination reveals slate-gray hyperpigmentation and hepatomegaly. A liver biopsy is planned. Which represents the definitive diagnostic threshold and the expected commonest hepatic lesion?',
+            options: [
+                'Hepatic iron index >1.5 with primary hepatocellular carcinoma',
+                'Plasma iron >300 μg/dL with macronodular cirrhosis',
+                'Hepatic iron index >1.5 with micronodular cirrhosis',
+                'Total iron binding capacity (TIBC) <200 μg/dL with fatty liver'
+            ],
+            correct: 'c'
+        }, {
+            id: 57,
+            q: 'A cirrhotic patient develops confusion after gastrointestinal bleeding. Which mechanism best explains the encephalopathy?',
+            options: [
+                'Increased insulin secretion',
+                'Increased ammonia production from intestinal protein breakdown',
+                'Decreased portal venous pressure',
+                'Decreased bilirubin conjugation'
+            ],
+            correct: 'b'
+        }, {
+            id: 58,
+            q: 'A 37-year-old woman is referred for evaluation of chronically abnormal liver chemistries. She has long-standing obesity with BMI 38. Liver enzymes show transaminases two to three times normal. Bilirubin and ALP are normal, hepatitis B and C negative. If a liver biopsy were performed, what is the most likely pathology?',
+            options: [
+                'Cirrhosis',
+                'Microvesicular fatty liver',
+                'Portal triaditis with piecemeal necrosis',
+                'Macrovesicular fatty liver'
+            ],
+            correct: 'd'
+        }, {
+            id: 59,
+            q: 'An African American male develops mild jaundice while being treated for a urinary tract infection. Urine bilirubin is negative. Serum bilirubin is 3 mg/dL, mostly unconjugated. Hemoglobin is 7 g/dL. What is the most likely diagnosis?',
+            options: [
+                'Acute viral hepatitis',
+                'Crigler-Najjar syndrome',
+                'Hemolysis secondary to G6PD deficiency',
+                'Pancreatic carcinoma'
+            ],
+            correct: 'c'
+        }, {
+            id: 60,
+            q: 'A 42-year-old woman presents with severe, generalized pruritus that is worse at night, along with progressive fatigue. Physical examination reveals xanthelasma and hepatomegaly. Laboratory tests show isolated elevation of alkaline phosphatase and a highly positive antimitochondrial antibody (AMA) titer. Which immunoglobulin class is most likely to be disproportionately elevated?',
+            options: [
+                'IgA',
+                'IgG',
+                'IgM',
+                'IgD'
+            ],
+            correct: 'c'
+        }, {
+            id: 61,
+            q: 'A patient with hepatic encephalopathy has elevated serum ammonia. Which acid-base disorder is classically seen early in the disease?',
+            options: [
+                'Respiratory alkalosis',
+                'Metabolic acidosis',
+                'Respiratory acidosis',
+                'Metabolic alkalosis'
+            ],
+            correct: 'a'
+        }];
+
+        // --------------------------------------------------------------
+        // APP STATE
+        // --------------------------------------------------------------
+        let currentIndex = 0;
+        let answers = {}; // { questionId: 'a'|'b'|'c'|'d' }
+        let revealed = {}; // { questionId: true } — whether feedback has been shown
+
+        const optionLetters = ['a', 'b', 'c', 'd'];
+
+        // DOM refs
+        const qNumber = document.getElementById('qNumber');
+        const qText = document.getElementById('qText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedbackBox = document.getElementById('feedbackBox');
+        const feedbackIcon = document.getElementById('feedbackIcon');
+        const feedbackText = document.getElementById('feedbackText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const progressText = document.getElementById('progressText');
+        const scoreBadge = document.getElementById('scoreBadge');
+        const progressFill = document.getElementById('progressFill');
+        const questionArea = document.getElementById('questionArea');
+        const resultScreen = document.getElementById('resultScreen');
+        const finalScoreNum = document.getElementById('finalScoreNum');
+        const finalMessage = document.getElementById('finalMessage');
+        const correctCount = document.getElementById('correctCount');
+        const wrongCount = document.getElementById('wrongCount');
+        const unansweredCount = document.getElementById('unansweredCount');
+
+        // --------------------------------------------------------------
+        // RENDER
+        // --------------------------------------------------------------
+        function renderQuestion(index) {
+            const data = quizData[index];
+            if (!data) return;
+
+            qNumber.textContent = `Q${data.id}`;
+            qText.textContent = data.q;
+
+            // Build options
+            optionsContainer.innerHTML = '';
+            data.options.forEach((optText, i) => {
+                const letter = optionLetters[i];
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.dataset.letter = letter;
+                btn.innerHTML = `<span class="letter">${letter.toUpperCase()}</span> ${optText}`;
+
+                // Check if already answered
+                const answered = answers[data.id];
+                if (answered) {
+                    btn.classList.add('disabled');
+                    const isCorrect = (letter === data.correct);
+                    const isSelected = (letter === answered);
+                    if (isSelected && isCorrect) btn.classList.add('correct');
+                    else if (isSelected && !isCorrect) btn.classList.add('wrong');
+                    else if (!isSelected && letter === data.correct && revealed[data.id]) {
+                        btn.classList.add('reveal-correct');
+                    }
+                }
+
+                btn.addEventListener('click', () => handleOptionClick(data.id, letter));
+                optionsContainer.appendChild(btn);
+            });
+
+            // Show feedback if answered
+            if (answers[data.id]) {
+                showFeedback(data.id);
+            } else {
+                feedbackBox.classList.remove('show');
+            }
+
+            // Update nav
+            prevBtn.disabled = (index === 0);
+            nextBtn.textContent = (index === quizData.length - 1) ? 'Finish ✓' : 'Next ▶';
+
+            // Progress
+            const total = quizData.length;
+            progressText.textContent = `Question ${index + 1} / ${total}`;
+            progressFill.style.width = `${((index + 1) / total) * 100}%`;
+
+            // Score
+            updateScore();
+        }
+
+        function handleOptionClick(qId, letter) {
+            // If already answered, ignore
+            if (answers[qId]) return;
+
+            const data = quizData.find(d => d.id === qId);
+            if (!data) return;
+
+            // Record answer
+            answers[qId] = letter;
+            revealed[qId] = true;
+
+            // Re-render
+            renderQuestion(currentIndex);
+
+            // Auto-advance after a short delay?
+            // We'll let user click next manually.
+        }
+
+        function showFeedback(qId) {
+            const data = quizData.find(d => d.id === qId);
+            if (!data) return;
+            const answer = answers[qId];
+            if (!answer) {
+                feedbackBox.classList.remove('show');
+                return;
+            }
+
+            const isCorrect = (answer === data.correct);
+            const correctLetter = data.correct.toUpperCase();
+            const answerText = data.options[optionLetters.indexOf(data.correct)];
+
+            feedbackBox.classList.add('show');
+            if (isCorrect) {
+                feedbackIcon.textContent = '✅';
+                feedbackText.innerHTML = `<span class="fb-correct">Correct!</span> The correct answer is <span class="fb-answer">${correctLetter}</span>.`;
+            } else {
+                feedbackIcon.textContent = '❌';
+                feedbackText.innerHTML =
+                    `<span class="fb-wrong">Incorrect.</span> The correct answer is <span class="fb-answer">${correctLetter}</span>: “${answerText}”.`;
+            }
+        }
+
+        function updateScore() {
+            let correct = 0;
+            let totalAnswered = 0;
+            quizData.forEach(d => {
+                if (answers[d.id]) {
+                    totalAnswered++;
+                    if (answers[d.id] === d.correct) correct++;
+                }
+            });
+            scoreBadge.textContent = `✅ ${correct} correct`;
+            return { correct, totalAnswered };
+        }
+
+        function getStats() {
+            let correct = 0,
+                wrong = 0,
+                unanswered = 0;
+            quizData.forEach(d => {
+                if (answers[d.id]) {
+                    if (answers[d.id] === d.correct) correct++;
+                    else wrong++;
+                } else {
+                    unanswered++;
+                }
+            });
+            return { correct, wrong, unanswered };
+        }
+
+        // --------------------------------------------------------------
+        // NAVIGATION
+        // --------------------------------------------------------------
+        function goTo(index) {
+            if (index < 0) index = 0;
+            if (index >= quizData.length) index = quizData.length - 1;
+            currentIndex = index;
+            renderQuestion(currentIndex);
+            // Scroll to top of card
+            document.querySelector('.question-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showResults() {
+            questionArea.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            const stats = getStats();
+            finalScoreNum.textContent = stats.correct;
+            correctCount.textContent = stats.correct;
+            wrongCount.textContent = stats.wrong;
+            unansweredCount.textContent = stats.unanswered;
+
+            let msg = '';
+            const pct = (stats.correct / quizData.length) * 100;
+            if (pct >= 90) msg = '🌟 Excellent! Masterful performance.';
+            else if (pct >= 75) msg = '👏 Great job! Strong knowledge.';
+            else if (pct >= 60) msg = '📖 Good effort. Review the topics you missed.';
+            else if (pct >= 45) msg = '🔁 Needs more review. Keep studying!';
+            else msg = '📚 Consider a thorough review of the material.';
+            finalMessage.textContent = msg;
+        }
+
+        function resetQuiz() {
+            answers = {};
+            revealed = {};
+            currentIndex = 0;
+            resultScreen.classList.add('hidden');
+            questionArea.classList.remove('hidden');
+            renderQuestion(0);
+        }
+
+        // --------------------------------------------------------------
+        // EVENT LISTENERS
+        // --------------------------------------------------------------
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) goTo(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const data = quizData[currentIndex];
+            // If current question unanswered, allow navigation but warn?
+            if (!answers[data.id]) {
+                // Allow moving forward but mark as unanswered
+                // We'll just move
+            }
+            if (currentIndex === quizData.length - 1) {
+                // Finish
+                showResults();
+            } else {
+                goTo(currentIndex + 1);
+            }
+        });
+
+        resetBtn.addEventListener('click', resetQuiz);
+        restartBtn.addEventListener('click', resetQuiz);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && !prevBtn.disabled) prevBtn.click();
+            if (e.key === 'ArrowRight' && !nextBtn.disabled) nextBtn.click();
+        });
+
+        // --------------------------------------------------------------
+        // INIT
+        // --------------------------------------------------------------
+        renderQuestion(0);
+
+        console.log('📋 Quiz loaded — 61 questions. Good luck!');
+    </script>
+
+</body>
+</html>

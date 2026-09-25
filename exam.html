@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hepatology Quiz – 130 Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            background: radial-gradient(ellipse at 10% 20%, #0b1120 0%, #1a2332 100%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 820px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border-radius: 56px;
+            padding: 44px 40px;
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        /* ===== COFFEE PAGE ===== */
+        #coffeePage {
+            text-align: center;
+        }
+        #coffeePage .icon-wrap {
+            font-size: 4.2rem;
+            margin-bottom: 4px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+        #coffeePage h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        #coffeePage .sub {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+            margin-bottom: 32px;
+        }
+        .coffee-options {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 28px 0 20px;
+        }
+        .coffee-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 60px;
+            padding: 18px 40px;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            min-width: 120px;
+            font-family: inherit;
+        }
+        .coffee-btn .dollar {
+            color: #fbbf24;
+        }
+        .coffee-btn:hover {
+            transform: translateY(-6px) scale(1.02);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(251, 191, 36, 0.4);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+        }
+        .coffee-btn:active {
+            transform: scale(0.97);
+        }
+
+        #thankYouMessage {
+            display: none;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            border-radius: 40px;
+            padding: 28px 30px;
+            margin: 24px 0 20px;
+            backdrop-filter: blur(8px);
+            animation: fadeUp 0.5s ease;
+        }
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        #thankYouMessage .big-emoji {
+            font-size: 2.4rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        #thankYouMessage .msg {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #86efac;
+        }
+        #thankYouMessage .sub-text {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 6px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #0b1120;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 28px rgba(251, 191, 36, 0.25);
+            display: none;
+            font-family: inherit;
+            margin-top: 6px;
+        }
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 40px rgba(251, 191, 36, 0.35);
+        }
+        .btn-start:active {
+            transform: scale(0.97);
+        }
+
+        .retake-link {
+            margin-top: 24px;
+            display: inline-block;
+            color: rgba(255, 255, 255, 0.35);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+        .retake-link:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ===== QUIZ PAGE ===== */
+        #quizPage {
+            display: none;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            border-radius: 12px;
+        }
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 18px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+        .q-number {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 4px 18px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        #scoreLabel {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        #scoreLabel strong {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .q-text {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 28px;
+            line-height: 1.7;
+            letter-spacing: -0.2px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .option {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 16px 22px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            backdrop-filter: blur(4px);
+        }
+        .option:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(4px);
+        }
+        .option .letter {
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.25);
+            min-width: 28px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .option.correct {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.12);
+            box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.15);
+        }
+        .option.correct .letter {
+            color: #22c55e;
+        }
+        .option.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.12);
+            box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.15);
+        }
+        .option.wrong .letter {
+            color: #ef4444;
+        }
+        .option.disabled {
+            cursor: default;
+            opacity: 0.75;
+        }
+        .option.disabled:hover {
+            transform: none;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .feedback {
+            padding: 16px 22px;
+            border-radius: 18px;
+            margin: 6px 0 22px;
+            font-weight: 500;
+            display: none;
+            font-size: 1rem;
+            backdrop-filter: blur(6px);
+        }
+        .feedback.correct {
+            background: rgba(34, 197, 94, 0.10);
+            border: 1px solid rgba(34, 197, 94, 0.20);
+            color: #86efac;
+            display: block;
+        }
+        .feedback.wrong {
+            background: rgba(239, 68, 68, 0.10);
+            border: 1px solid rgba(239, 68, 68, 0.20);
+            color: #fca5a5;
+            display: block;
+        }
+
+        .btn-next {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-block;
+            font-family: inherit;
+            backdrop-filter: blur(4px);
+        }
+        .btn-next:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .btn-next:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== SCORE SCREEN ===== */
+        #scoreScreen {
+            display: none;
+            text-align: center;
+            padding: 30px 0 10px;
+        }
+        #scoreScreen .big-score {
+            font-size: 4.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        #scoreScreen .detail {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+        #scoreScreen .sub-detail {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 8px;
+        }
+        .btn-retake {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 44px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            margin-top: 28px;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            backdrop-filter: blur(4px);
+        }
+        .btn-retake:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .container {
+                padding: 28px 18px;
+                border-radius: 36px;
+            }
+            #coffeePage h1 {
+                font-size: 2rem;
+            }
+            .coffee-btn {
+                padding: 14px 24px;
+                font-size: 1.3rem;
+                min-width: 90px;
+            }
+            .q-text {
+                font-size: 1.1rem;
+            }
+            .option {
+                padding: 14px 16px;
+                font-size: 0.95rem;
+            }
+            #scoreScreen .big-score {
+                font-size: 3.6rem;
+            }
+            .btn-start {
+                padding: 14px 32px;
+                font-size: 1rem;
+            }
+            #thankYouMessage .msg {
+                font-size: 1.4rem;
+            }
+        }
+        @media (max-width: 420px) {
+            .coffee-options {
+                gap: 10px;
+            }
+            .coffee-btn {
+                padding: 12px 16px;
+                font-size: 1.1rem;
+                min-width: 70px;
+            }
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="appContainer">
+
+        <!-- ===== COFFEE PAGE ===== -->
+        <div id="coffeePage">
+            <div class="icon-wrap">☕</div>
+            <h1>Buy me a coffee</h1>
+            <p class="sub">If this quiz helped you, consider supporting me with a coffee.</p>
+
+            <div class="coffee-options">
+                <button class="coffee-btn" data-amount="5">$<span class="dollar">5</span></button>
+                <button class="coffee-btn" data-amount="50">$<span class="dollar">50</span></button>
+                <button class="coffee-btn" data-amount="100">$<span class="dollar">100</span></button>
+            </div>
+
+            <div id="thankYouMessage">
+                <span class="big-emoji">🎉</span>
+                <div class="msg">تسلم ي عمده واجبك وصل</div>
+            </div>
+
+            <button class="btn-start" id="startQuizBtn">📝 ادخل ع الامتحان</button>
+
+            <div class="retake-link" id="retakeFromCoffee">⟳ Retake (reset quiz)</div>
+        </div>
+
+        <!-- ===== QUIZ PAGE ===== -->
+        <div id="quizPage">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="q-header">
+                <span class="q-number" id="qNumLabel">Question 1 / 130</span>
+                <span id="scoreLabel"><strong id="scoreCount">0</strong> correct</span>
+            </div>
+            <div class="q-text" id="qText"></div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="feedback" id="feedbackArea"></div>
+            <button class="btn-next" id="nextBtn" disabled>Next →</button>
+            <div style="margin-top: 22px; text-align: center;">
+                <span class="retake-link" id="retakeFromQuiz" style="font-size:0.85rem;">⟳ Retake quiz</span>
+            </div>
+        </div>
+
+        <!-- ===== SCORE SCREEN ===== -->
+        <div id="scoreScreen">
+            <div class="big-score" id="finalScore">0/130</div>
+            <div class="detail" id="finalPercent">0%</div>
+            <div class="sub-detail" id="finalMessage"></div>
+            <button class="btn-retake" id="retakeBtn">⟳ Retake Quiz</button>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // DATA — 130 questions (Q1–70 from file1, Q71–130 from file2)
+        // ================================================================
+
+        const q1_70 = [
+            { q: "A young female with suspected autoimmune hepatitis. What is the most specific diagnostic test?",
+                opts: ["CT scan", "ALT level", "Liver biopsy", "Ultrasound"], ans: 2 },
+            { q: "Management of portal vein thrombosis:",
+                opts: ["Surgery", "Anticoagulation", "Steroids", "Antibiotics"], ans: 1 },
+            { q: "ALT 1500 IU/L, AST 1300 IU/L in a young patient with jaundice. Most likely cause?",
+                opts: ["Cirrhosis", "Alcohol", "Viral hepatitis", "NAFLD"], ans: 2 },
+            { q: "Key management step in alcoholic liver disease:",
+                opts: ["Antibiotics", "Surgery", "Abstinence", "Steroids"], ans: 2 },
+            { q: "Decompensated cirrhosis feature:",
+                opts: ["Mild ALT", "Fatigue", "Normal INR", "Variceal bleeding"], ans: 3 },
+            { q: "First-line hepatic encephalopathy treatment:",
+                opts: ["Surgery", "Antibiotics", "Lactulose", "Steroids"], ans: 2 },
+            { q: "Isolated GGT elevation most suggests:",
+                opts: ["Cirrhosis", "Viral hepatitis", "Alcohol use", "Hemolysis"], ans: 2 },
+            { q: "Most sensitive marker of alcohol use:",
+                opts: ["AST", "ALP", "ALT", "GGT"], ans: 3 },
+            { q: "Liver lesion in cirrhosis with arterial enhancement:",
+                opts: ["Hemangioma", "Adenoma", "HCC", "Cyst"], ans: 2 },
+            { q: "A patient presents with chronic hepatitis, negative viral markers, and hypergammaglobulinemia. Next best step?",
+                opts: ["CT scan", "Start antivirals", "Check autoimmune markers", "Ignore"], ans: 2 },
+            { q: "MELD score based on:",
+                opts: ["INR, bilirubin, creatinine", "GGT", "ALP", "None"], ans: 0 },
+            { q: "Elevated ALP with normal GGT suggests:",
+                opts: ["Viral hepatitis", "Cirrhosis", "Cholestasis", "Bone disease"], ans: 3 },
+            { q: "A patient presents 24h after paracetamol overdose. Best management?",
+                opts: ["Activated charcoal", "Dialysis", "NAC", "Steroids"], ans: 2 },
+            { q: "Which hepatitis becomes chronic most frequently?",
+                opts: ["HCV", "HAV", "HBV", "HEV"], ans: 0 },
+            { q: "Most common cause of death in cirrhosis:",
+                opts: ["Fatigue", "Pain", "Variceal bleeding", "Nausea"], ans: 2 },
+            { q: "Alcoholic liver disease lab pattern:",
+                opts: ["Normal AST", "ALT>AST", "AST>ALT", "Low GGT"], ans: 2 },
+            { q: "Primary prophylaxis of varices:",
+                opts: ["Surgery", "Beta-blockers", "Antibiotics", "Steroids"], ans: 1 },
+            { q: "Gold standard for fibrosis:",
+                opts: ["Ultrasound", "Biopsy", "MRI", "CT"], ans: 1 },
+            { q: "Portal vein thrombosis best test:",
+                opts: ["CT", "MRI brain", "X-ray", "Doppler US"], ans: 3 },
+            { q: "Patient on anti-TB drugs develops hepatitis. First step?",
+                opts: ["Add steroids", "Biopsy", "Stop hepatotoxic drugs", "Continue drugs"], ans: 2 },
+            { q: "A 32-year-old woman presents with fatigue and jaundice. Labs show elevated ALT/AST, positive ANA and anti-smooth muscle antibodies, and high IgG levels. Most likely diagnosis?",
+                opts: ["Autoimmune hepatitis", "Viral hepatitis", "NASH", "Alcoholic hepatitis"], ans: 0 },
+            { q: "AST:ALT ratio 3:1 with elevated MCV. Diagnosis?",
+                opts: ["Viral hepatitis", "Alcoholic liver disease", "Hemolysis", "NASH"], ans: 1 },
+            { q: "Most common cause of cirrhosis worldwide:",
+                opts: ["HBV", "HCV", "Alcohol", "NAFLD"], ans: 3 },
+            { q: "A patient has HBsAg+, HBeAg+, high HBV DNA. Interpretation?",
+                opts: ["Carrier state", "Active replication", "Immunity", "Resolved infection"], ans: 1 },
+            { q: "Chronic HBV indication for treatment:",
+                opts: ["HBsAg only", "Elevated HBV DNA + ALT", "Anti-HBs", "IgM anti-HBc"], ans: 1 },
+            { q: "A patient on treatment for autoimmune hepatitis develops remission. Next step?",
+                opts: ["Continue maintenance therapy", "Stop treatment immediately", "Start antibiotics", "Surgery"],
+            ans: 0 },
+            { q: "Obese diabetic with elevated ALT:",
+                opts: ["Alcoholic hepatitis", "Viral hepatitis", "NASH", "Cirrhosis"], ans: 2 },
+            { q: "Indication for liver transplant:",
+                opts: ["Fatty liver", "Elevated ALT only", "Decompensated cirrhosis", "Mild disease"], ans: 2 },
+            { q: "Definitive diagnosis of autoimmune hepatitis requires:",
+                opts: ["Liver biopsy", "Imaging only", "ALT level", "Serology only"], ans: 0 },
+            { q: "Hepatorenal syndrome treatment:",
+                opts: ["Surgery", "Fluids only", "Albumin + vasoconstrictors", "Antibiotics"], ans: 2 },
+            { q: "A healthcare worker needle injury from HBV+ patient. Next step?",
+                opts: ["Steroids", "HBV vaccine ± HBIG", "Antibiotics", "Observe"], ans: 1 },
+            { q: "Anti-HCV positive, next step?",
+                opts: ["Biopsy", "Start treatment", "Ultrasound", "HCV RNA PCR"], ans: 3 },
+            { q: "Drug causing dose-dependent hepatotoxicity:",
+                opts: ["Paracetamol", "Methyldopa", "Amoxicillin", "Isoniazid"], ans: 0 },
+            { q: "Patient with acute hepatitis, worsening INR and confusion:",
+                opts: ["Cirrhosis", "Acute liver failure", "Chronic hepatitis", "Hepatic encephalopathy"], ans: 1 },
+            { q: "Benign liver lesion most common:",
+                opts: ["Hemangioma", "HCC", "Metastasis", "Adenoma"], ans: 0 },
+            { q: "Cirrhosis screening for HCC:",
+                opts: ["AFP + ultrasound", "MRI only", "Biopsy", "CT yearly"], ans: 0 },
+            { q: "Best prognostic indicator in acute liver failure:",
+                opts: ["ALT", "INR", "AST", "ALP"], ans: 1 },
+            { q: "Recurrent encephalopathy add:",
+                opts: ["Rifaximin", "Beta-blockers", "Diuretics", "Steroids"], ans: 0 },
+            { q: "Best indicator of liver synthetic function in acute setting:",
+                opts: ["ALT", "INR", "ALP", "AST"], ans: 1 },
+            { q: "Imaging in NAFLD:",
+                opts: ["Fatty infiltration", "Calcification", "HCC", "Cirrhosis"], ans: 0 },
+            { q: "A patient has mixed pattern LFTS. Next best step?",
+                opts: ["Start treatment", "Biopsy immediately", "Imaging (ultrasound)", "Ignore"], ans: 2 },
+            { q: "A patient has total bilirubin 5 mg/dL (direct 4), ALP ↑↑, GGT ↑, mild transaminases. Most likely pathology?",
+                opts: ["Hemolysis", "Extrahepatic obstruction", "Hepatocellular injury", "Gilbert syndrome"], ans: 1 },
+            { q: "Which antibody is most commonly associated with autoimmune hepatitis type 1?",
+                opts: ["Anti-mitochondrial", "AMA", "Anti-LKM1", "ANA"], ans: 3 },
+            { q: "Long-term alcohol leads to:",
+                opts: ["IBS", "Gallstones", "Cirrhosis", "Acute hepatitis only"], ans: 2 },
+            { q: "NASH progression risk:",
+                opts: ["Smoking", "Infection", "Trauma", "Diabetes"], ans: 3 },
+            { q: "Most common route of HCV transmission:",
+                opts: ["Sexual", "Fecal-oral", "Blood", "Vertical"], ans: 2 },
+            { q: "Best initial test in suspected cirrhosis:",
+                opts: ["Biopsy", "MRI", "Ultrasound", "CT"], ans: 2 },
+            { q: "Alcoholic hepatitis with MDF >32 :",
+                opts: ["Surgery", "Antivirals", "Steroids", "Antibiotics"], ans: 2 },
+            { q: "A patient with indirect hyperbilirubinemia during stress, normal labs otherwise:",
+                opts: ["Rotor syndrome", "Dubin-Johnson", "Hepatitis", "Gilbert syndrome"], ans: 3 },
+            { q: "First-line NASH treatment:",
+                opts: ["Surgery", "Drugs", "Weight loss", "Steroids"], ans: 2 },
+            { q: "Cirrhotic patient with hematemesis. First step?",
+                opts: ["MRI", "Biopsy", "Endoscopy", "CT"], ans: 2 },
+            { q: "Portal hypertension complication EXCEPT:",
+                opts: ["Encephalopathy", "Varices", "Hematuria", "Splenomegaly"], ans: 2 },
+            { q: "Autoimmune hepatitis type 2 is characterized by:",
+                opts: ["ANA positivity", "Anti-HCV", "Anti-LKM1 antibodies", "AMA positivity"], ans: 2 },
+            { q: "First drug in variceal bleeding:",
+                opts: ["Octreotide", "Antibiotic", "Beta-blocker", "Diuretic"], ans: 0 },
+            { q: "Cirrhotic with confusion and asterixis. Mechanism?",
+                opts: ["Glucose", "Potassium", "Ammonia", "Sodium"], ans: 2 },
+            { q: "Cholestatic DILI pattern most associated with:",
+                opts: ["Paracetamol", "Amoxicillin-clavulanate", "Rifampicin", "INH"], ans: 1 },
+            { q: "A patient with autoimmune hepatitis has elevated IgG. This finding indicates:",
+                opts: ["Immune-mediated liver injury", "Viral infection", "Alcoholic damage", "Drug reaction"], ans: 0 },
+            { q: "Low albumin, prolonged INR, normal bilirubin suggests:",
+                opts: ["Hemolysis", "Chronic liver failure", "Cholestasis", "Acute hepatitis"], ans: 1 },
+            { q: "Pregnant patient with fulminant hepatitis—most likely virus?",
+                opts: ["HCV", "HAV", "HEV", "HBV"], ans: 2 },
+            { q: "Best imaging for focal liver lesion characterization:",
+                opts: ["Ultrasound", "ECG", "Triphasic CT", "X-ray"], ans: 2 },
+            { q: "First-line treatment of autoimmune hepatitis:",
+                opts: ["Antivirals", "Antibiotics", "Steroids ± azathioprine", "Surgery"], ans: 2 },
+            { q: "Non-invasive fibrosis assessment:",
+                opts: ["X-ray", "EEG", "FibroScan", "ECG"], ans: 2 },
+            { q: "HBsAg negative, anti-HBc IgM positive:",
+                opts: ["Vaccinated", "Resolved infection", "Acute infection", "Chronic infection"], ans: 2 },
+            { q: "Hepatorenal syndrome trigger:",
+                opts: ["Infection", "Exercise", "Diet", "Trauma"], ans: 0 },
+            { q: "NASH diagnosis confirmed by:",
+                opts: ["CT", "Biopsy", "MRI", "Ultrasound"], ans: 1 },
+            { q: "Child-Pugh score includes:",
+                opts: ["Creatinine", "Bilirubin, albumin, INR", "Sodium", "Glucose"], ans: 1 },
+            { q: "Secondary prophylaxis of varices:",
+                opts: ["Beta-blocker + band ligation", "Diuretics", "Antibiotics", "Surgery"], ans: 0 },
+            { q: "Which condition is commonly associated with autoimmune hepatitis?",
+                opts: ["Hypertension", "Thyroid disease", "COPD", "Diabetes"], ans: 1 },
+            { q: "A 48-year-old woman presents with pruritus and fatigue. Labs: ALP markedly elevated, GGT elevated, mild ALT rise, positive AMA. What is the most likely diagnosis?",
+                opts: ["Autoimmune hepatitis", "PBC", "PSC", "NASH"], ans: 1 },
+            { q: "Mechanism of paracetamol toxicity:",
+                opts: ["Immune", "Cholestasis", "Fibrosis", "Direct necrosis via NAPQI"], ans: 3 }
+        ];
+
+        const q71_130 = [
+            { q: "A patient with cirrhosis and a sudden increase in alpha-fetoprotein should be screened for:",
+                opts: ["Hepatic Vein Thrombosis", "HCC", "Portal Vein Thrombosis", "SBP"], ans: 1 },
+            { q: "A patient with known varices is started on Propranolol. What is the target heart rate for effective primary prophylaxis?",
+                opts: ["90-100 bpm", "70-80 bpm", "40-45 bpm", "55-60 bpm"], ans: 3 },
+            { q: "What is the significance of a 'Flat' EEG in Hepatic Encephalopathy?",
+                opts: ["Stage 4 (Coma)", "Stage 3", "Stage 2", "Stage 1"], ans: 0 },
+            { q: "In Wilson's Disease, the primary defect is in which protein?",
+                opts: ["ATP7B", "Ceruloplasmin", "Alpha-1 Antitrypsin", "HFE"], ans: 0 },
+            { q: "Which drug is used to treat pruritus in cholestasis by sequestering bile acids in the gut?",
+                opts: ["Naltrexone", "Cholestyramine", "Sertraline", "Rifampicin"], ans: 1 },
+            { q: "Elevated Alpha-Fetoprotein (AFP) in a chronic HBV patient requires which immediate next step?",
+                opts: ["Repeat AFP in 1 month", "Quad-phase CT or Contrast MRI", "Percutaneous needle biopsy",
+                    "Start Tenofovir"
+                ], ans: 1 },
+            { q: "Which finding on a peripheral smear is a pathognomonic marker for advanced alcoholic cirrhosis (Zieve's Syndrome context)?",
+                opts: ["Howell-Jolly bodies", "Schistocytes", "Acanthocytes (Spur Cells)", "Target Cells"], ans: 2 },
+            { q: "What does a 'Double Duct Sign' on MRCP suggest?",
+                opts: ["Gallstone in the cystic duct", "Simple cholecystitis", "Primary Sclerosing Cholangitis",
+                    "Pancreatic Head Carcinoma or Ampullary Tumor"
+                ], ans: 3 },
+            { q: "What is the primary hemodynamic driver of Hepatorenal Syndrome?",
+                opts: ["Splanchnic vasodilation causing effective arterial hypovolemia",
+                    "Direct bilirubin-induced tubular necrosis", "Systemic hypertension",
+                    "Nephrotoxic effects of high-dose Lactulose"
+                ], ans: 0 },
+            { q: "In an AMA-negative patient with suspected PBC, which 'second-line' antibody has the highest specificity for the diagnosis?",
+                opts: ["Anti-dsDNA", "Anti-LKM1", "Anti-Smooth Muscle Antibody", "Anti-SP100"], ans: 3 },
+            { q: "The 'Pre-core mutant' in HBV infection is characterized by which of the following?",
+                opts: ["HBeAg positive with high DNA", "HBeAg negative with high DNA", "Anti-HBe positive with low DNA",
+                    "Anti-HBc IgM positive"
+                ], ans: 1 },
+            { q: "In NAFLD, what is the most significant predictor of long-term mortality?",
+                opts: ["AST/ALT ratio", "BMI", "Severity of fibrosis", "Degree of steatosis"], ans: 2 },
+            { q: "Which property of unconjugated bilirubin prevents it from appearing in the urine?",
+                opts: ["Its water solubility", "Its molecular weight", "Its tight binding to albumin",
+                    "Its rapid excretion by the kidneys"
+                ], ans: 2 },
+            { q: "A 45-year-old male with alcoholic hepatitis has a Maddrey Discriminant Function (DF) score of 34. What is the indicated treatment?",
+                opts: ["Immediate Liver Transplant", "Observation only", "High-dose Aspirin",
+                    "Prednisolone or Pentoxifylline"
+                ], ans: 3 },
+            { q: "In differentiating Vitamin K deficiency from severe liver disease, which factor assay is most specific because it is synthesized extrahepatically?",
+                opts: ["Factor VII", "Factor VIII", "Factor II", "Factor IX"], ans: 1 },
+            { q: "A patient has anti-LKM1 antibodies. This is characteristic of which of the following?",
+                opts: ["Primary Biliary Cholangitis", "Drug-induced liver injury", "Autoimmune hepatitis type 2",
+                    "Viral hepatitis"
+                ], ans: 2 },
+            { q: "A 30-year-old female presents with acute jaundice and Kayser-Fleischer rings. Most likely diagnosis?",
+                opts: ["Alpha-1 Antitrypsin deficiency", "Hemochromatosis", "Wilson's Disease", "Autoimmune Hepatitis"],
+            ans: 2 },
+            { q: "In Hemochromatosis, the 'Bronze Diabetes' triad includes which of the following?",
+                opts: ["Obesity, Diabetes, Hypertension", "Cirrhosis, Diabetes, Skin Hyperpigmentation",
+                    "Cirrhosis, Heart failure, Jaundice", "Diabetes, Arthritis, Tremor"
+                ], ans: 1 },
+            { q: "Which electrolyte abnormality most commonly precipitates Hepatic Encephalopathy in patients on diuretics?",
+                opts: ["Hypokalemic Alkalosis", "Hypocalcemia", "Hyperkalemia", "Hypernatremia"], ans: 0 },
+            { q: "Which factor is NOT included in the Child-Pugh Score?",
+                opts: ["Creatinine", "Bilirubin", "PT/INR", "Albumin"], ans: 0 },
+            { q: "Which coagulation factor's 6-hour half-life makes its assay the most sensitive indicator of acute hepatic synthetic failure?",
+                opts: ["Factor X", "Factor II", "Factor VII", "Factor IX"], ans: 2 },
+            { q: "A 60-year-old with HBV has a 3cm HCC lesion, Child-Pugh A, and no portal hypertension. Preferred treatment?",
+                opts: ["PEI (Ethanol Injection)", "Sorafenib", "TACE", "Surgical Resection"], ans: 3 },
+            { q: "Which scoring system is utilized specifically to prioritize patients for liver transplantation?",
+                opts: ["MELD Score", "Child-Pugh Score", "Rockall Score", "Wells Score"], ans: 0 },
+            { q: "A 50-year-old male with diabetes and hepatomegaly has a high Ferritin and Transferrin Saturation of 70%. Diagnosis?",
+                opts: ["Hereditary Hemochromatosis", "Chronic HBV", "Wilson's Disease", "NAFLD"], ans: 0 },
+            { q: "In Gilbert Syndrome, the mild hyperbilirubinemia is typically exacerbated by which of the following?",
+                opts: ["High-fat meals", "Fasting or caloric restriction", "Vitamin C supplementation",
+                    "Excessive sleep"], ans: 1 },
+            { q: "What is the gold standard for staging liver fibrosis, despite the rise of non-invasive markers?",
+                opts: ["Fibroscan", "FIB-4 Index", "Liver Biopsy", "APRI Score"], ans: 2 },
+            { q: "A patient with Budd-Chiari Syndrome typically presents with the triad of:",
+                opts: ["Hepatomegaly, splenomegaly, jaundice", "Ascites, hepatomegaly, abdominal pain",
+                    "Fever, jaundice, encephalopathy", "Portal hypertension, varices, ascites"
+                ], ans: 1 },
+            { q: "Which imaging modality is most sensitive for detecting early hepatic steatosis?",
+                opts: ["PET scan", "Ultrasound", "Non-contrast CT", "MRI (Proton Density Fat Fraction)"], ans: 3 },
+            { q: "A patient with Grade 3 HE fails to improve with Lactulose. What is the most appropriate second-line agent to add?",
+                opts: ["Metronidazole", "Vancomycin", "Neomycin", "Rifaximin"], ans: 3 },
+            { q: "Which is the most common extrahepatic manifestation of Chronic Hepatitis C?",
+                opts: ["Mixed Cryoglobulinemia", "Dermatomyositis", "Polyarteritis Nodosa", "Glomerulonephritis"],
+            ans: 0 },
+            { q: "A patient with cirrhosis presents with dyspnea that improves when lying down (platypnea). Most likely diagnosis?",
+                opts: ["Congestive Heart Failure", "Pneumonia", "Hepatopulmonary Syndrome", "Portopulmonary Hypertension"],
+            ans: 2 },
+            { q: "A 'Stellate Cell' in the liver is primarily responsible for which of the following?",
+                opts: ["Bile production", "Storage of vitamin A", "Fibrosis/collagen production",
+                    "Kupffer cell function"], ans: 2 },
+            { q: "Which physical exam finding specifically differentiates portal hypertension from inferior vena cava obstruction?",
+                opts: ["Direction of flow in abdominal wall veins (away from the umbilicus)",
+                    "Direction of flow in abdominal wall veins (towards the umbilicus)", "Jaundice", "Ascites"
+                ], ans: 0 },
+            { q: "A patient has a 'Lead Pipe' appearance on colonoscopy and ALP elevation. What liver condition are they at high risk for?",
+                opts: ["PBC", "PSC", "Hemochromatosis", "Autoimmune Hepatitis"], ans: 1 },
+            { q: "A 55-year-old with cirrhosis presents with fever and confusion. Ascitic fluid PMN is 280/μL. While starting Cefotaxime, which adjunct therapy reduces the risk of Hepatorenal Syndrome?",
+                opts: ["IV Vitamin K", "IV Furosemide", "IV Albumin (1.5g/kg on day 1, 1g/kg on day 3)",
+                    "Oral Norfloxacin"
+                ], ans: 2 },
+            { q: "What defines the 'window of opportunity' for liver transplantation in Acute Liver Failure according to King's College Criteria?",
+                opts: ["Arterial pH <7.3 or Lactate >3.5 mmol/L after resuscitation",
+                    "Presence of Grade 1 Encephalopathy", "Peak AST >5000 U/L", "Serum Albumin <2.0 g/dL"
+                ], ans: 0 },
+            { q: "Which antibiotic is used for the long-term secondary prophylaxis of SBP?",
+                opts: ["Norfloxacin or Ciprofloxacin", "Metronidazole", "Ceftriaxone", "Vancomycin"], ans: 0 },
+            { q: "What is the most common cause of death in patients with Acute Liver Failure?",
+                opts: ["Cerebral Edema and Herniation", "Renal Failure", "Pancreatitis", "Variceal Bleeding"], ans: 0 },
+            { q: "Which phase of HBV infection carries the highest risk of HCC even without cirrhosis?",
+                opts: ["Inactive Carrier", "Immune Tolerant (high DNA)", "Anti-HBs positive", "Resolved infection"],
+            ans: 1 },
+            { q: "What is the 'Rule of 100s' in acetaminophen toxicity management?",
+                opts: ["Max dose is 100mg", "Treat if ingestion >100mg/kg or levels >100μg/mL at 4 hours",
+                    "Give 100g of charcoal", "100% survival with NAC"
+                ], ans: 1 },
+            { q: "Which enzyme deficiency is the molecular basis for Crigler-Najjar Syndrome Type 1?",
+                opts: ["G6PD", "UDP-glucuronosyltransferase (complete absence)", "Alkaline Phosphatase",
+                    "Heme oxygenase"
+                ], ans: 1 },
+            { q: "What is the characteristic MRCP finding in Primary Sclerosing Cholangitis?",
+                opts: ["Dilatation of the pancreatic duct only", "'Beaded' appearance of intra- and extrahepatic ducts",
+                    "Large stone at the gall bladder neck", "Smooth tapering of the CBD"
+                ], ans: 1 },
+            { q: "Which drug is contraindicated in a patient with compensated cirrhosis and mild pain?",
+                opts: ["Ibuprofen (NSAIDs)", "Tramadol", "Codeine", "Paracetamol (low dose)"], ans: 0 },
+            { q: "Which ascitic fluid finding is most suggestive of Malignancy?",
+                opts: ["Low SAAG (<1.1) and high LDH", "Positive culture for E. coli", "PMN >250",
+                    "High SAAG (>1.1) and low protein"
+                ], ans: 0 },
+            { q: "What is the metabolic rationale for using Lactulose in Hepatic Encephalopathy?",
+                opts: ["Inhibition of intestinal glutaminase", "Direct antagonism of GABA receptors",
+                    "Increasing urea cycle enzymatic activity",
+                    "Ion trapping of NH3 into NH4+ via colonic acidification"
+                ], ans: 3 },
+            { q: "A patient has HBsAg (+), HBeAg (-), Anti-HBe (+), and HBV-DNA of 50 IU/mL. This represents which of the following?",
+                opts: ["Immune Tolerant phase", "HBeAg-negative Chronic Hepatitis", "Acute HBV infection",
+                    "Inactive Carrier state"
+                ], ans: 3 },
+            { q: "Which hepatitis virus is a DNA virus?",
+                opts: ["Hepatitis C", "Hepatitis B", "Hepatitis A", "Hepatitis E"], ans: 1 },
+            { q: "What is the first-line treatment for an asymptomatic patient with Wilson's disease?",
+                opts: ["Liver Transplant", "Zinc or Trientine", "Penicillamine", "Steroids"], ans: 1 },
+            { q: "A SAAG value of 0.8 g/dL with total ascitic protein of 3.2 g/dL is most suggestive of:",
+                opts: ["Budd-Chiari Syndrome", "Congestive Heart Failure", "Cirrhosis", "Peritoneal Tuberculosis"],
+            ans: 3 },
+            { q: "A 'Fecal-oral' transmission is the hallmark of which Hepatitis viruses?",
+                opts: ["A and E", "B and C", "B and D", "C and D"], ans: 0 },
+            { q: "The definitive diagnosis of Autoimmune Hepatitis requires:",
+                opts: ["CT Scan", "Response to Lactulose", "Histology (Interface Hepatitis) and Autoantibodies",
+                    "Ultrasound"
+                ], ans: 2 },
+            { q: "What is the most common trigger for Hepatorenal Syndrome?",
+                opts: ["Exercise", "SBP or other infections", "High protein diet", "Paracetamol use"], ans: 1 },
+            { q: "The MELD score includes Bilirubin, INR, and which of the following?",
+                opts: ["Sodium only", "Creatinine and Sodium (in MELD-Na)", "Albumin and creatinine", "Creatinine only"],
+            ans: 1 },
+            { q: "A patient presents with acute liver failure after a 'mushroom stew.' Which toxin is likely responsible?",
+                opts: ["Amanitin (Amatoxin)", "Pyrrolizidine", "Microcystin", "Aflatoxin"], ans: 0 },
+            { q: "While large-volume paracentesis (9L) is performed, you must give which of the following in order to prevent circulatory dysfunction?",
+                opts: ["6-8g of Albumin per liter removed", "2L of Normal Saline", "40mg Furosemide",
+                    "1 unit of Fresh Frozen Plasma"
+                ], ans: 0 },
+            { q: "In a patient with Type 2 HRS, which is the most definitive long-term treatment?",
+                opts: ["TIPS", "Daily Midodrine", "Continuous Albumin infusion", "Liver Transplantation"], ans: 3 },
+            { q: "A patient with PBC is not responding to UDCA. Which newly approved second-line agent could be used?",
+                opts: ["Obeticholic Acid", "Prednisone", "Cyclosporine", "Azathioprine"], ans: 0 },
+            { q: "A patient with cirrhosis and ascites develops sudden oliguria. Urinary Sodium is 8 mEq/L. This suggests which of the following?",
+                opts: ["Acute Tubular Necrosis", "Normal finding", "Prerenal Azotemia/HRS", "Post-renal obstruction"],
+            ans: 2 },
+            { q: "A patient with chronic HCV develops palpable purpura and arthralgia. What should you test for?",
+                opts: ["Vitamin C levels", "Rheumatoid Factor only", "Cryoglobulins", "Anti-dsDNA"], ans: 2 },
+            { q: "Which neurotransmitter system is primarily implicated in the 'True/False' Neurotransmitter Hypothesis of Hepatic Encephalopathy?",
+                opts: ["Depletion of Serotonin", "Decrease in Octopamine",
+                    "Upregulation of GABA-Benzodiazepine receptors", "Increase in Acetylcholine"
+                ], ans: 2 }
+        ];
+
+        const allQuestions = q1_70.concat(q71_130);
+
+        // ================================================================
+        // ENGINE
+        // ================================================================
+
+        let currentIndex = 0;
+        let correctCount = 0;
+        let answered = false;
+
+        const coffeePage = document.getElementById('coffeePage');
+        const quizPage = document.getElementById('quizPage');
+        const scoreScreen = document.getElementById('scoreScreen');
+        const qText = document.getElementById('qText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedbackArea = document.getElementById('feedbackArea');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressFill = document.getElementById('progressFill');
+        const qNumLabel = document.getElementById('qNumLabel');
+        const scoreCount = document.getElementById('scoreCount');
+
+        const thankYouMsg = document.getElementById('thankYouMessage');
+        const startBtn = document.getElementById('startQuizBtn');
+
+        // Show coffee page initially
+        coffeePage.style.display = 'block';
+        quizPage.style.display = 'none';
+        thankYouMsg.style.display = 'none';
+        startBtn.style.display = 'none';
+
+        // Coffee buttons
+        document.querySelectorAll('.coffee-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                thankYouMsg.style.display = 'block';
+                startBtn.style.display = 'inline-block';
+                thankYouMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+
+        startBtn.addEventListener('click', startQuiz);
+        document.getElementById('retakeFromCoffee').addEventListener('click', resetAll);
+        document.getElementById('retakeFromQuiz').addEventListener('click', resetAll);
+        document.getElementById('retakeBtn').addEventListener('click', resetAll);
+
+        function startQuiz() {
+            coffeePage.style.display = 'none';
+            quizPage.style.display = 'block';
+            scoreScreen.style.display = 'none';
+            currentIndex = 0;
+            correctCount = 0;
+            renderQuestion();
+        }
+
+        function resetAll() {
+            currentIndex = 0;
+            correctCount = 0;
+            answered = false;
+            coffeePage.style.display = 'block';
+            quizPage.style.display = 'none';
+            scoreScreen.style.display = 'none';
+            thankYouMsg.style.display = 'none';
+            startBtn.style.display = 'none';
+            progressFill.style.width = '0%';
+            qNumLabel.textContent = 'Question 1 / 130';
+            scoreCount.textContent = '0';
+        }
+
+        function renderQuestion() {
+            if (currentIndex >= allQuestions.length) {
+                showScore();
+                return;
+            }
+            const q = allQuestions[currentIndex];
+            qText.textContent = q.q;
+            qNumLabel.textContent = `Question ${currentIndex+1} / ${allQuestions.length}`;
+            scoreCount.textContent = correctCount;
+
+            optionsContainer.innerHTML = '';
+            const letters = ['a', 'b', 'c', 'd'];
+            q.opts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.innerHTML = `<span class="letter">${letters[idx]}.</span> ${opt}`;
+                div.dataset.index = idx;
+                div.addEventListener('click', () => handleOptionClick(idx));
+                optionsContainer.appendChild(div);
+            });
+
+            feedbackArea.className = 'feedback';
+            feedbackArea.style.display = 'none';
+            feedbackArea.textContent = '';
+            nextBtn.disabled = true;
+            answered = false;
+            progressFill.style.width = `${(currentIndex / allQuestions.length) * 100}%`;
+        }
+
+        function handleOptionClick(selectedIdx) {
+            if (answered) return;
+            const q = allQuestions[currentIndex];
+            const correct = q.ans;
+            const options = document.querySelectorAll('.option');
+
+            options.forEach(opt => opt.classList.add('disabled'));
+            options.forEach((opt, idx) => {
+                if (idx === correct) opt.classList.add('correct');
+                else if (idx === selectedIdx && idx !== correct) opt.classList.add('wrong');
+            });
+
+            feedbackArea.style.display = 'block';
+            if (selectedIdx === correct) {
+                feedbackArea.className = 'feedback correct';
+                feedbackArea.textContent = '✅ Correct! Well done.';
+                correctCount++;
+                scoreCount.textContent = correctCount;
+            } else {
+                feedbackArea.className = 'feedback wrong';
+                feedbackArea.textContent = `❌ Wrong. The correct answer was: ${q.opts[correct]}`;
+            }
+            answered = true;
+            nextBtn.disabled = false;
+        }
+
+        nextBtn.addEventListener('click', function() {
+            if (!answered) return;
+            currentIndex++;
+            if (currentIndex < allQuestions.length) {
+                renderQuestion();
+            } else {
+                showScore();
+            }
+        });
+
+        function showScore() {
+            quizPage.style.display = 'none';
+            scoreScreen.style.display = 'block';
+            const total = allQuestions.length;
+            document.getElementById('finalScore').textContent = `${correctCount}/${total}`;
+            const pct = Math.round((correctCount / total) * 100);
+            document.getElementById('finalPercent').textContent = `${pct}%`;
+            const msg = document.getElementById('finalMessage');
+            if (pct >= 80) msg.textContent = '🌟 Excellent! You really know your hepatology.';
+            else if (pct >= 60) msg.textContent = '💪 Good job! Keep reviewing the topics you missed.';
+            else if (pct >= 40) msg.textContent = '📖 Not bad! Spend more time on the core concepts.';
+            else msg.textContent = '🔁 Keep studying! Review the materials and try again.';
+            progressFill.style.width = '100%';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !nextBtn.disabled) {
+                nextBtn.click();
+            }
+        });
+    </script>
+
+</body>
+</html>
